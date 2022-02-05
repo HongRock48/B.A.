@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class DataSheet
 {
-    int id;
-    string name;
+    public int id;
+    public string name;
 }

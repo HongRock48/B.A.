@@ -1,0 +1,11 @@
+{
+    "id" : 1,
+    "name" : "momoi",
+    "level" : 1,
+    "atk" : 10,
+    "def" : 10,
+    "hp" : 10,
+    "exp" : 0.0,
+    "skillGauge" : 0.0,
+    "sprite" : "aaa"
+}
