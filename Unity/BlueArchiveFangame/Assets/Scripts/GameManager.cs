@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class GameManager : Singleton
-{
+public class GameManager : Singleton {
     [SerializeField]
     private PlayerController player;
+    private bool isCollidedWithWall = false;
 
     CharacterInfo Momoi = new CharacterInfo();
-    public void StartGame()
-    {
+    public void StartGame() {
         Debug.Log("game start!");
         JsonReader jsonReader = new JsonReader();
         string resourcePath = "Assets/Resources/Data";
@@ -21,18 +20,24 @@ public class GameManager : Singleton
         Subject<string> subject = new Subject<string>();
 
     }
-    public void UpdateGame()
-    {
-        player.PlayerWalk(Momoi);
+
+    public void SetIsCollidedWithWall(bool isCollided) {
+        isCollidedWithWall = isCollided;
     }
 
-    void Start()
+    public bool GetIsCollidedWithWall()
     {
+        return isCollidedWithWall;
+    }
+
+    public void UpdateGame() {
+    }
+
+    void Start() {
         StartGame();
     }
 
-    void Update()
-    {
+    void Update() {
         UpdateGame();
     }
 }

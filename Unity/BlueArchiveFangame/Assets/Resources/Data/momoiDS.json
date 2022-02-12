@@ -1,6 +1,6 @@
 {
     "id" : 1,
-    "name" : "momoi",
+    "dataName" : "momoi",
     "level" : 1,
     "atk" : 10,
     "def" : 10,

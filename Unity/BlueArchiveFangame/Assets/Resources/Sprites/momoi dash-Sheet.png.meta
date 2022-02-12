@@ -1,10 +1,25 @@
 fileFormatVersion: 2
-guid: c2d4cea6c15c8e84093c874e44261ca4
+guid: 5dade3ad7f0c3674dad8162dcdaa5e73
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1097749353894496810
-    second: momoi idle-Sheet_2
+      213: 9041089957693639185
+    second: momoi dash-Sheet_0
+  - first:
+      213: -6574060992311363140
+    second: momoi dash-Sheet_1
+  - first:
+      213: 1494674718065204855
+    second: momoi dash-Sheet_2
+  - first:
+      213: -1496383584167938246
+    second: momoi dash-Sheet_3
+  - first:
+      213: -51608061748937570
+    second: momoi dash-Sheet_4
+  - first:
+      213: -5972945971074593213
+    second: momoi dash-Sheet_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -130,64 +145,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: momoi idle-Sheet_0
+      name: momoi dash-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 530
-        height: 350
-      alignment: 9
-      pivot: {x: 0.41, y: 0.5}
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7337c05ee26a08960800000000000000
-      internalID: 7602258891342902071
+      spriteID: 11a4eae2a67687d70800000000000000
+      internalID: 9041089957693639185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: momoi idle-Sheet_1
+      name: momoi dash-Sheet_1
       rect:
         serializedVersion: 2
-        x: 530
+        x: 515
         y: 0
-        width: 530
-        height: 350
-      alignment: 9
-      pivot: {x: 0.41, y: 0.5}
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 163d6ac9136c9c9b0800000000000000
-      internalID: -5059294789990165663
+      spriteID: cb9778dbb5e34c4a0800000000000000
+      internalID: -6574060992311363140
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: momoi idle-Sheet_2
+      name: momoi dash-Sheet_2
       rect:
         serializedVersion: 2
-        x: 1060
+        x: 1030
         y: 0
-        width: 530
-        height: 350
-      alignment: 9
-      pivot: {x: 0.41, y: 0.5}
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d534bc57c204c0f0800000000000000
-      internalID: -1097749353894496810
+      spriteID: 77e9809acb62eb410800000000000000
+      internalID: 1494674718065204855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: momoi dash-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1545
+        y: 0
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a37b1f1fe07cb3be0800000000000000
+      internalID: -1496383584167938246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: momoi dash-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 0
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9c78e3cdb6a84ff0800000000000000
+      internalID: -51608061748937570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: momoi dash-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2575
+        y: 0
+        width: 515
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34e8f7b0945db1da0800000000000000
+      internalID: -5972945971074593213
       vertices: []
       indices: 
       edges: []
@@ -195,7 +273,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e1fe3fba1b6485244a93420a2be36178
+    spriteID: 66ea65b8875ba54459725538beee982c
     internalID: 0
     vertices: []
     indices: 
