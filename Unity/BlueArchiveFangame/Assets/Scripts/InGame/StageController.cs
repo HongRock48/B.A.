@@ -1,48 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx.Triggers;
 using UniRx;
+using UniRx.Triggers;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class StageController : MonoBehaviour
 {
     public PlayerController player;
+    public GameObject walls;
+    public GameObject portars;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        JsonReader jsonReader = new JsonReader();
+    void Start() {
+        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        var jsonReader = new JsonReader();
         var resourcePath = "Assets/Resources/Data";
+        var Momoi = jsonReader.LoadJsonFile<CharacterInfo>(resourcePath, "momoiDS");
 
-        CharacterInfo Momoi = new CharacterInfo();
-        Momoi = jsonReader.LoadJsonFile<CharacterInfo>(resourcePath, "momoiDS");
-
-        this.OnTriggerEnterAsObservable()
+        walls.OnTriggerEnterAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream => {
-                if (gameManager.GetIsCollidedWithWall() == false) {
-                    gameManager.SetIsCollidedWithWall(true);
-                }
+                gameManager.AddCollidedWithWallCount();
                 player.PlayerWalk(Momoi);
             });
 
-        this.OnTriggerExitAsObservable()
+        walls.OnTriggerExitAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream => {
-                Debug.Log("out!");
-                if (gameManager.GetIsCollidedWithWall() == true) {
-                    gameManager.SetIsCollidedWithWall(false);
-                }
+                gameManager.SubtractCollidedWithWallCount();
                 player.PlayerWalk(Momoi);
             });
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public StageInfo ReadStageInfoJson(string infoName)
     {
-        
+        var jsonReader = new JsonReader();
+        return jsonReader.JsonToOject<StageInfo>(StaticValues.DATA_SHEET_PATH + infoName + StaticValues.JSON_FILE);
     }
 }

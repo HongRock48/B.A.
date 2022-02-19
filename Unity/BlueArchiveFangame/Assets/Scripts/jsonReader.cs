@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class JsonReader {
     public T JsonToOject<T>(string jsonData) {
-        return JsonUtility.FromJson<T>(jsonData);
+        return JsonConvert.DeserializeObject<T>(jsonData);
     }
 
     public T LoadJsonFile<T>(string loadPath, string fileName) {
@@ -17,4 +19,11 @@ public class JsonReader {
         string jsonData = Encoding.UTF8.GetString(data);
         return JsonUtility.FromJson<T>(jsonData);
     }
+
+    /*public void SaveStageDataAsJsonFile(string fileName, StageInfo stageData) {        
+        var json = JsonConvert.SerializeObject(stageData);
+        Debug.Log(json);
+        var path = "Assets/Resources/Data/" + fileName + ".Json";
+        File.WriteAllText(path, json);
+    }*/
 }
