@@ -11,8 +11,7 @@ public struct StaticValues {
     public static string DATA_SHEET_PATH = "Assets/Resources/Data";
     public static string JSON_FILE = ".json";
 
-    public enum PLAYABLE_CHARACTER
-    {
+    public enum PLAYABLE_CHARACTER {
         MOMOI = 1,
         MIDORI = 2,
         ARISU = 3,
@@ -24,6 +23,21 @@ public struct StaticValues {
         WALK = 1,
         DASH = 2,
         JUMP = 3,
-        ATTACK = 4,
+        ATTACK_COMBO_FIRST = 4,
+        ATTACK_COMBO_SECOND = 5,
+        ATTACK_COMBO_THIRD = 6,
+        DASH_ATTACK = 7,
+        JUMP_ATTACK = 8,
+        HIT = 9,
+        DOWN = 10,
+        GET_UP = 11,
+        SKILL = 12,
+    };
+
+    public enum PLAYER_STATUS
+    {
+        ON_GROUND = 0,
+        JUMPED = 1,
+        DASH = 2,
     };
 }

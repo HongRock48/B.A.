@@ -21,19 +21,17 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.033333335
-      value: {fileID: 4832600173469635883, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.06666667
-      value: {fileID: -3490962600875306504, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.1
-      value: {fileID: -7632169823859622774, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.2
+    - time: 0.016666668
       value: {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.3
+    - time: 0.033333335
+      value: {fileID: -7632169823859622774, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
+    - time: 0.13333334
+      value: {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
+    - time: 0.23333333
       value: {fileID: -6866891713771212382, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.4
+    - time: 0.33333334
       value: {fileID: 657644946520477933, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - time: 0.5
+    - time: 0.46666667
       value: {fileID: -8555623773086161796, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
     - time: 0.6
       value: {fileID: -7405583182385729408, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
@@ -63,8 +61,7 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - {fileID: 4832600173469635883, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
-    - {fileID: -3490962600875306504, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
+    - {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
     - {fileID: -7632169823859622774, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
     - {fileID: -9181753962982526329, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}
     - {fileID: -6866891713771212382, guid: b89647ad70cb5b748a5e0123c8d68f7f, type: 3}

@@ -175,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   momoiAnimator: {fileID: 2053056494}
   cameraController: {fileID: 768022345}
+  gameManager: {fileID: 966051028}
 --- !u!65 &408088449
 BoxCollider:
   m_ObjectHideFlags: 0

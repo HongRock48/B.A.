@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 public class StageController : MonoBehaviour
 {
-    public PlayerController player;
+    public CharacterController player;
     public GameObject walls;
     public GameObject portars;
 
@@ -23,14 +23,14 @@ public class StageController : MonoBehaviour
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream => {
                 gameManager.AddCollidedWithWallCount();
-                player.PlayerWalk(Momoi);
+                player.PlayerWalk();
             });
 
         walls.OnTriggerExitAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream => {
                 gameManager.SubtractCollidedWithWallCount();
-                player.PlayerWalk(Momoi);
+                player.PlayerWalk();
             });
     }
     

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class GameManager : Singleton {
     [SerializeField]
-    private PlayerController player;
+    private CharacterController player;
     [SerializeField]
     private GameObject map;
     private int collidedWithWallCount;
@@ -35,14 +35,11 @@ public class GameManager : Singleton {
         return vectorReplacerList;
     }
 
-    private List<QuaternionReplacer> ReplaceUnityValues(List<Quaternion> quaternionList)
-    {
+    private List<QuaternionReplacer> ReplaceUnityValues(List<Quaternion> quaternionList) {
         var quaternionReplacerList = new List<QuaternionReplacer>();
 
-        foreach (var quaternion in quaternionList)
-        {
-            quaternionReplacerList.Add(new QuaternionReplacer
-            {
+        foreach (var quaternion in quaternionList) {
+            quaternionReplacerList.Add(new QuaternionReplacer {
                 x = quaternion.x,
                 y = quaternion.y,
                 z = quaternion.z,

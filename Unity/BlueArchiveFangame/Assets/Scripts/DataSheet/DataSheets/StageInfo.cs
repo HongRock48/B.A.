@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageInfo :  DataSheet
-{
+public class StageInfo :  DataSheet {
     //public Dictionary<string, List<Vector3>> enemyDictionary;
     public List<StageEnemyInfo> enemyList;
 
