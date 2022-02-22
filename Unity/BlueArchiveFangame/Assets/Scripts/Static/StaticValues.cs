@@ -37,7 +37,11 @@ public struct StaticValues {
     public enum PLAYER_STATUS
     {
         ON_GROUND = 0,
-        JUMPED = 1,
+        WALK = 1,
         DASH = 2,
+        JUMPED = 3,
+        ATTACK_COMBO_FIRST = 4,
+        ATTACK_COMBO_SECOND = 5,
+        ATTACK_COMBO_THIRD = 6,
     };
 }
