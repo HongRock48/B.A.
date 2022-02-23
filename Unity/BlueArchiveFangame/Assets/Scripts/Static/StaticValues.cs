@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct StaticValues {
+public struct StaticValues
+{
     public static float WALK_SPEED = 2;
     public static float DASH_SPEED = 7;
     public static float JUMP_AMMOUNT = 15;
@@ -11,14 +12,16 @@ public struct StaticValues {
     public static string DATA_SHEET_PATH = "Assets/Resources/Data";
     public static string JSON_FILE = ".json";
 
-    public enum PLAYABLE_CHARACTER {
+    public enum PLAYABLE_CHARACTER
+    {
         MOMOI = 1,
         MIDORI = 2,
         ARISU = 3,
         YUZU = 4,
     };
 
-    public enum ANIMATION_NUMBER {
+    public enum ANIMATION_NUMBER
+    {
         IDLE = 0,
         WALK = 1,
         DASH = 2,
@@ -43,5 +46,7 @@ public struct StaticValues {
         ATTACK_COMBO_FIRST = 4,
         ATTACK_COMBO_SECOND = 5,
         ATTACK_COMBO_THIRD = 6,
+        CANT_MOVE = 98,
+        STAND = 99,
     };
 }

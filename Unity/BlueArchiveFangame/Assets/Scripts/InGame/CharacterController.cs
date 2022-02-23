@@ -5,7 +5,8 @@ using UniRx.Triggers;
 using UniRx;
 using System;
 
-public class CharacterController : MonoBehaviour {
+public class CharacterController : MonoBehaviour
+{
     // TODO: 플레이어 상태 FSM으로 변경
 
     [SerializeField]
@@ -21,66 +22,95 @@ public class CharacterController : MonoBehaviour {
     private int playerStatus;
     private int playerMovingStatus;
 
-    void Start() {
+    public bool isPlayingFirstAttack;
+    public bool isPlayingSecondAttack;
+    public bool isPlayingThirdAttack;
+
+    void Start()
+    {
         // 아이들
         this.UpdateAsObservable()
             .Where(stream => Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0 && playerStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND)
             .Subscribe(stream => PlayerIdle());
 
         this.UpdateAsObservable()
-            .Subscribe(stream => {
+            .Subscribe(stream =>
+            {
                 switch (playerStatus)
                 {
-                        case (int)StaticValues.PLAYER_STATUS.ON_GROUND:
-                            // 점프
-                            if (Input.GetKeyDown(KeyCode.Space)) {
-                                PlayerJump(); 
-                            }
+                    case (int)StaticValues.PLAYER_STATUS.ON_GROUND:
+                        // 점프
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            PlayerJump();
+                        }
 
-                            // 걷기, 달리기
-                            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
+                        // 연속공격
+                        if (Input.GetKeyDown(KeyCode.Z) && playerMovingStatus != (int)StaticValues.PLAYER_STATUS.DASH)
+                        {
+                            playerMovingStatus = (int)StaticValues.PLAYER_STATUS.CANT_MOVE;
 
-                                if (Input.GetKey(KeyCode.LeftShift) && gameManager.GetCollidedWithWallCount() == 0) {
-                                    PlayerDash();
-                                }
-                                else {
-                                    PlayerWalk();
-                                }
-                            }
+                            Debug.Log("공격!");
+                            // 연속공격 시작
+                            FirstAttackCombo();
+                        }
+                        break;
 
-                            // 연속공격
-                            if (Input.GetKeyDown(KeyCode.Z) && playerMovingStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND) {
-                                FirstAttackCombo();
-                            }
-                            break;
+                    case (int)StaticValues.PLAYER_STATUS.JUMPED:
+                        playerStatus = IsPlayerLanded() ? (int)StaticValues.PLAYER_STATUS.ON_GROUND : playerStatus;
+                        break;
 
-                        case (int)StaticValues.PLAYER_STATUS.JUMPED:
-                            playerStatus = IsPlayerLanded() ? (int)StaticValues.PLAYER_STATUS.ON_GROUND : playerStatus ;
-                            break;
+                    case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
+                        if (Input.GetKeyDown(KeyCode.Z) && isPlayingFirstAttack)
+                        {
+                            playerMovingStatus = (int)StaticValues.PLAYER_STATUS.CANT_MOVE;
+                            // 2차 연속공격
+                            playerStatus = (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND;
+                        }
+                        break;
 
-                        case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
-                            if (Input.GetKeyDown(KeyCode.Z)) {
-                                // 2차 연속공격
-                                playerStatus = (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND;
-                            }
-                            break;
+                    case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND:
+                        if (Input.GetKeyDown(KeyCode.Z) && isPlayingSecondAttack)
+                        {
+                            playerMovingStatus = (int)StaticValues.PLAYER_STATUS.CANT_MOVE;
 
-                        case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND:
-                            if (Input.GetKeyDown(KeyCode.Z))
-                            {
-                                // 3차 연속공격
-                                playerStatus = (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD;
-                            }
-                            break;
+                            // 3차 연속공격
+                            playerStatus = (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD;
+                        }
+                        break;
 
-                        case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD:
-                            break;
+                    case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD:
+                        break;
                 }
             });
 
+        // 부드러운 이동을 위해서 이동관련 메소드는 fixedUpdate에서 실행
+        this.FixedUpdateAsObservable()
+            .Subscribe(stream =>
+            {
+                switch (playerStatus)
+                {
+                    case (int)StaticValues.PLAYER_STATUS.ON_GROUND:
+                        // 걷기, 달리기
+                        if (playerMovingStatus != (int)StaticValues.PLAYER_STATUS.CANT_MOVE)
+                        {
+                            PlayerMove();
+                        }
+                        break;
+
+                    case (int)StaticValues.PLAYER_STATUS.JUMPED:
+                        // 점프상태로 걷기, 달리기
+                        PlayerMove();
+                        break;
+                }
+
+            });
+
+        //this.UpdateAsObservable().Subscribe(stream => Debug.Log("playerStatus" + playerStatus + " / playerMovingStatus : " + playerMovingStatus + " / animationNum : " + momoiAnimator.GetInteger("animationNum")));
+
         // 중력 추가
         this.FixedUpdateAsObservable()
-            .Subscribe(stream => ResetGravity());
+                    .Subscribe(stream => ResetGravity());
     }
 
     /// <summary>
@@ -88,7 +118,8 @@ public class CharacterController : MonoBehaviour {
     /// </summary>
     /// <param name="gameObject"> 플레리어 오브젝트 </param>
     /// <param name="info"> 현재 선택된 캐릭터 정보 </param>
-    public void InitializePlayer(GameObject gameObject, CharacterInfo info) {
+    public void InitializePlayer(GameObject gameObject, CharacterInfo info)
+    {
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
         characterInfo = info;
     }
@@ -97,10 +128,13 @@ public class CharacterController : MonoBehaviour {
     /// 애니메이션 변경 메소드
     /// </summary>
     /// <param name="animationNum"> 현재 재생해야하는 애니메이션 </param>
-    private void AnimationControll(int animationNum) {
-        switch (characterInfo.id) {
+    private void AnimationControll(int animationNum)
+    {
+        switch (characterInfo.id)
+        {
             case (int)StaticValues.PLAYABLE_CHARACTER.MOMOI:
-                if (momoiAnimator.GetInteger("animationNum") != animationNum) {
+                if (momoiAnimator.GetInteger("animationNum") != animationNum)
+                {
                     momoiAnimator.SetInteger("animationNum", animationNum);
                 }
                 break;
@@ -113,11 +147,13 @@ public class CharacterController : MonoBehaviour {
     /// <summary>
     /// 아이들
     /// </summary>
-    public void PlayerIdle() {
-        switch (characterInfo.id) {
+    public void PlayerIdle()
+    {
+        switch (characterInfo.id)
+        {
             case (int)StaticValues.PLAYABLE_CHARACTER.MOMOI:
                 AnimationControll((int)StaticValues.ANIMATION_NUMBER.IDLE);
-                playerMovingStatus = (int)StaticValues.PLAYER_STATUS.ON_GROUND;
+                playerMovingStatus = (int)StaticValues.PLAYER_STATUS.STAND;
                 break;
 
             default:
@@ -125,49 +161,64 @@ public class CharacterController : MonoBehaviour {
         }
     }
 
+    public void PlayerMove()
+    {
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            return;
+        }
+                
+        if (Input.GetKey(KeyCode.LeftShift) && gameManager.GetCollidedWithWallCount() == 0)
+        {
+            PlayerDash();
+        }
+        else
+        {
+            PlayerWalk();
+        }
+    }
+
     /// <summary>
     /// 걷기
     /// </summary>
-    public void PlayerWalk() {
+    public void PlayerWalk()
+    {
         var animationNum = playerStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND ?
             (int)StaticValues.ANIMATION_NUMBER.WALK : (int)StaticValues.ANIMATION_NUMBER.JUMP;
 
-        PlayerMove(StaticValues.WALK_SPEED, animationNum);
+        HandleMovement(StaticValues.WALK_SPEED, animationNum);
         playerMovingStatus = (int)StaticValues.PLAYER_STATUS.WALK;
     }
 
     /// <summary>
     /// 대쉬
     /// </summary>
-    public void PlayerDash() {
+    public void PlayerDash()
+    {
         var animationNum = playerStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND ?
             (int)StaticValues.ANIMATION_NUMBER.DASH : (int)StaticValues.ANIMATION_NUMBER.JUMP;
 
-        PlayerMove(StaticValues.DASH_SPEED, animationNum);
+        HandleMovement(StaticValues.DASH_SPEED, animationNum);
         playerMovingStatus = (int)StaticValues.PLAYER_STATUS.DASH;
-    }
-
-    public void CheckCurrentStatusBeforeMoving()
-    {
-        if(playerStatus != (int)StaticValues.PLAYER_STATUS.ON_GROUND || playerStatus != (int)StaticValues.PLAYER_STATUS.JUMPED) {
-            playerStatus = IsPlayerLanded() ? (int)StaticValues.PLAYER_STATUS.ON_GROUND : (int)StaticValues.PLAYER_STATUS.JUMPED;
-        }
     }
 
     /// <summary>
     /// 캐릭터를 움직이는 메소드
     /// </summary>
     /// <param name="speed"> 속도 </param>
-    private void PlayerMove(float speed, int animationNum) {
+    private void HandleMovement(float speed, int animationNum)
+    {
         AnimationControll(animationNum);
 
         float moveDirX = Input.GetAxisRaw("Horizontal");
         float moveDirZ = Input.GetAxisRaw("Vertical");
 
-        if (moveDirX < 0) {
+        if (moveDirX < 0)
+        {
             gameObject.GetComponentInChildren<SpriteRenderer>().flipX = true;
         }
-        else if (moveDirX > 0) {
+        else if (moveDirX > 0)
+        {
             gameObject.GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
 
@@ -182,7 +233,8 @@ public class CharacterController : MonoBehaviour {
     /// <summary>
     /// 점프
     /// </summary>
-    public void PlayerJump() {
+    public void PlayerJump()
+    {
         AnimationControll((int)StaticValues.ANIMATION_NUMBER.JUMP);
 
         playerRigidBody.AddForce(Vector3.up * StaticValues.JUMP_AMMOUNT, ForceMode.Impulse);
@@ -192,7 +244,8 @@ public class CharacterController : MonoBehaviour {
     /// <summary>
     /// 첫번째 연속공격
     /// </summary>
-    public void FirstAttackCombo() {
+    public void FirstAttackCombo()
+    {
         AnimationControll((int)StaticValues.ANIMATION_NUMBER.ATTACK_COMBO_FIRST);
         playerStatus = (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST;
     }
@@ -200,14 +253,16 @@ public class CharacterController : MonoBehaviour {
     /// <summary>
     /// 두번째 연속공격
     /// </summary>
-    public void SecondAttackCombo() {
+    public void SecondAttackCombo()
+    {
         AnimationControll((int)StaticValues.ANIMATION_NUMBER.ATTACK_COMBO_SECOND);
     }
 
     /// <summary>
     /// 세번째 연속공격
     /// </summary>
-    public void ThirdAttackCombo() {
+    public void ThirdAttackCombo()
+    {
         AnimationControll((int)StaticValues.ANIMATION_NUMBER.ATTACK_COMBO_THIRD);
     }
 
@@ -215,7 +270,8 @@ public class CharacterController : MonoBehaviour {
     /// 땅에 착지했는지 확인
     /// </summary>
     /// <returns> 착지한 상태인가 </returns>
-    public bool IsPlayerLanded() {
+    public bool IsPlayerLanded()
+    {
         var distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
 
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
@@ -224,8 +280,9 @@ public class CharacterController : MonoBehaviour {
     /// <summary>
     /// 중력 추가 메소드
     /// </summary>
-    private void ResetGravity() {
-        playerRigidBody.AddForce(Physics.gravity* StaticValues.GRAVITY_SCALE * playerRigidBody.mass);
+    private void ResetGravity()
+    {
+        playerRigidBody.AddForce(Physics.gravity * StaticValues.GRAVITY_SCALE * playerRigidBody.mass);
     }
 
 

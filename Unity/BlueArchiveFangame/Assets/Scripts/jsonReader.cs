@@ -6,12 +6,15 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public class JsonReader {
-    public T JsonToOject<T>(string jsonData) {
+public class JsonReader
+{
+    public T JsonToOject<T>(string jsonData)
+    {
         return JsonConvert.DeserializeObject<T>(jsonData);
     }
 
-    public T LoadJsonFile<T>(string loadPath, string fileName) {
+    public T LoadJsonFile<T>(string loadPath, string fileName)
+    {
         FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open);
         byte[] data = new byte[fileStream.Length];
         fileStream.Read(data, 0, data.Length);

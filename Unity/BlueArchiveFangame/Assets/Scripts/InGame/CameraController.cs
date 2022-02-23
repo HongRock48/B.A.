@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
     [SerializeField]
     private Transform Target;
     [SerializeField]
@@ -12,7 +13,8 @@ public class CameraController : MonoBehaviour {
     public Vector3 Offset;
     private Vector3 velocity = Vector3.zero;
 
-    public void MoveCamera() {
+    public void MoveCamera()
+    {
         Vector3 targetPosition = Target.position + Offset;
         gameObject.transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, SmoothTime);
 
@@ -20,13 +22,15 @@ public class CameraController : MonoBehaviour {
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         Offset = gameObject.transform.position - Target.position;
     }
 
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         MoveCamera();
     }
 }

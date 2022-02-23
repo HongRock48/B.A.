@@ -13,7 +13,8 @@ public class StageController : MonoBehaviour
     public GameObject walls;
     public GameObject portars;
 
-    void Start() {
+    void Start()
+    {
         var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         var jsonReader = new JsonReader();
         var resourcePath = "Assets/Resources/Data";
@@ -21,19 +22,21 @@ public class StageController : MonoBehaviour
 
         walls.OnTriggerEnterAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
-            .Subscribe(stream => {
+            .Subscribe(stream =>
+            {
                 gameManager.AddCollidedWithWallCount();
                 player.PlayerWalk();
             });
 
         walls.OnTriggerExitAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
-            .Subscribe(stream => {
+            .Subscribe(stream =>
+            {
                 gameManager.SubtractCollidedWithWallCount();
                 player.PlayerWalk();
             });
     }
-    
+
     public StageInfo ReadStageInfoJson(string infoName)
     {
         var jsonReader = new JsonReader();
