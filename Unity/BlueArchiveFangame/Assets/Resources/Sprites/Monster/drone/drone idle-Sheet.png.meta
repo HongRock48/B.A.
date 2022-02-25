@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: 5dade3ad7f0c3674dad8162dcdaa5e73
+guid: 908b8c6b8b1ca1848a45e48a90ba3468
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9041089957693639185
-    second: momoi dash-Sheet_0
+      213: 2046471885258836417
+    second: drone idle-Sheet_0
   - first:
-      213: -6574060992311363140
-    second: momoi dash-Sheet_1
+      213: -2441436406517788668
+    second: drone idle-Sheet_1
   - first:
-      213: 1494674718065204855
-    second: momoi dash-Sheet_2
-  - first:
-      213: -1496383584167938246
-    second: momoi dash-Sheet_3
-  - first:
-      213: -51608061748937570
-    second: momoi dash-Sheet_4
-  - first:
-      213: -5972945971074593213
-    second: momoi dash-Sheet_5
+      213: -2487033049707856345
+    second: drone idle-Sheet_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -83,7 +74,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -95,7 +86,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -107,7 +98,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 4096
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -119,7 +110,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
-    maxTextureSize: 4096
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -131,7 +122,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 4096
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -145,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: momoi dash-Sheet_0
+      name: drone idle-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 515
-        height: 325
+        width: 145
+        height: 115
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11a4eae2a67687d70800000000000000
-      internalID: 9041089957693639185
+      spriteID: 1c94da34657866c10800000000000000
+      internalID: 2046471885258836417
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: momoi dash-Sheet_1
+      name: drone idle-Sheet_1
       rect:
         serializedVersion: 2
-        x: 515
+        x: 145
         y: 0
-        width: 515
-        height: 325
+        width: 145
+        height: 115
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb9778dbb5e34c4a0800000000000000
-      internalID: -6574060992311363140
+      spriteID: 4001dc706864e1ed0800000000000000
+      internalID: -2441436406517788668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: momoi dash-Sheet_2
+      name: drone idle-Sheet_2
       rect:
         serializedVersion: 2
-        x: 1030
+        x: 290
         y: 0
-        width: 515
-        height: 325
+        width: 145
+        height: 115
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,71 +192,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77e9809acb62eb410800000000000000
-      internalID: 1494674718065204855
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: momoi dash-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 1545
-        y: 0
-        width: 515
-        height: 325
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a37b1f1fe07cb3be0800000000000000
-      internalID: -1496383584167938246
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: momoi dash-Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 2060
-        y: 0
-        width: 515
-        height: 325
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e9c78e3cdb6a84ff0800000000000000
-      internalID: -51608061748937570
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: momoi dash-Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 2575
-        y: 0
-        width: 515
-        height: 325
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 34e8f7b0945db1da0800000000000000
-      internalID: -5972945971074593213
+      spriteID: 72eb18f3e984c7dd0800000000000000
+      internalID: -2487033049707856345
       vertices: []
       indices: 
       edges: []
@@ -273,7 +201,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 66ea65b8875ba54459725538beee982c
+    spriteID: b959e4f6d8d239a4aaf04578cf21c902
     internalID: 0
     vertices: []
     indices: 

@@ -7,8 +7,6 @@ using System;
 
 public class CharacterController : MonoBehaviour
 {
-    // TODO: 플레이어 상태 FSM으로 변경
-
     [SerializeField]
     private Animator momoiAnimator;
     [SerializeField]
@@ -16,27 +14,35 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private GameManager gameManager;
 
+    [SerializeField]
+    private GameObject FirstAtkColBox;
+    [SerializeField]
+    private GameObject SecondAtkColBox;
+    [SerializeField]
+    private GameObject ThirdAtkColBox;
+
+
     private Rigidbody playerRigidBody;
     private CharacterInfo characterInfo;
 
     private int playerStatus;
     private int playerMovingStatus;
 
-    public bool isPlayingFirstAttack;
-    public bool isPlayingSecondAttack;
-    public bool isPlayingThirdAttack;
+    private bool isPlayingFirstAttack;
+    private bool isPlayingSecondAttack;
+    private bool isPlayingThirdAttack;
 
     void Start()
     {
-        // 아이들
-        this.UpdateAsObservable()
-            .Where(stream => Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0 && playerStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND)
-            .Subscribe(stream => PlayerIdle());
-
         this.UpdateAsObservable()
             .Subscribe(stream =>
             {
-                switch (playerStatus)
+                if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0 && playerStatus == (int)StaticValues.PLAYER_STATUS.ON_GROUND)
+                {
+                    PlayerIdle();
+                }
+
+                switch(playerStatus)
                 {
                     case (int)StaticValues.PLAYER_STATUS.ON_GROUND:
                         // 점프
@@ -50,7 +56,6 @@ public class CharacterController : MonoBehaviour
                         {
                             playerMovingStatus = (int)StaticValues.PLAYER_STATUS.CANT_MOVE;
 
-                            Debug.Log("공격!");
                             // 연속공격 시작
                             FirstAttackCombo();
                         }
@@ -104,13 +109,9 @@ public class CharacterController : MonoBehaviour
                         break;
                 }
 
+                // 플레이어 캐릭터에 중력 추가
+                ResetGravity();
             });
-
-        //this.UpdateAsObservable().Subscribe(stream => Debug.Log("playerStatus" + playerStatus + " / playerMovingStatus : " + playerMovingStatus + " / animationNum : " + momoiAnimator.GetInteger("animationNum")));
-
-        // 중력 추가
-        this.FixedUpdateAsObservable()
-                    .Subscribe(stream => ResetGravity());
     }
 
     /// <summary>
@@ -130,7 +131,7 @@ public class CharacterController : MonoBehaviour
     /// <param name="animationNum"> 현재 재생해야하는 애니메이션 </param>
     private void AnimationControll(int animationNum)
     {
-        switch (characterInfo.id)
+        switch(characterInfo.id)
         {
             case (int)StaticValues.PLAYABLE_CHARACTER.MOMOI:
                 if (momoiAnimator.GetInteger("animationNum") != animationNum)
@@ -149,7 +150,7 @@ public class CharacterController : MonoBehaviour
     /// </summary>
     public void PlayerIdle()
     {
-        switch (characterInfo.id)
+        switch(characterInfo.id)
         {
             case (int)StaticValues.PLAYABLE_CHARACTER.MOMOI:
                 AnimationControll((int)StaticValues.ANIMATION_NUMBER.IDLE);
@@ -294,5 +295,64 @@ public class CharacterController : MonoBehaviour
     public int GetPlayerStatus()
     {
         return playerStatus;
+    }
+
+    public void SetCurrentAttackStatus(int playerAttackStatus, bool status)
+    {
+        switch(playerAttackStatus)
+        {
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
+                isPlayingFirstAttack = status;
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND:
+                isPlayingSecondAttack = status;
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD:
+                isPlayingThirdAttack = status;
+                break;
+        }
+    }
+
+    public bool GetCurrentAttackStatus(int playerAttackStatus)
+    {
+        var currentStatus = false;
+
+        switch(playerAttackStatus)
+        {
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
+                currentStatus = isPlayingFirstAttack;
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND:
+                currentStatus = isPlayingSecondAttack;
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD:
+                currentStatus = isPlayingThirdAttack;
+                break;
+        }
+
+        return currentStatus;
+    }
+
+    public void SetAttackCollisionBoxActivation(int playerAttackStatus, bool isOn)
+    {
+        switch (playerAttackStatus)
+        {
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
+                Debug.Log(isOn);
+                FirstAtkColBox.SetActive(isOn);
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND:
+                SecondAtkColBox.SetActive(isOn);
+                break;
+
+            case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD:
+                ThirdAtkColBox.SetActive(isOn);
+                break;
+        }
     }
 }

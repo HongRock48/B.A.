@@ -16,7 +16,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void FirstAttackStarted()
     {
-        characterController.isPlayingFirstAttack = true;
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST, true);
     }
 
     /// <summary>
@@ -24,8 +24,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void FirstAttackFinished()
     {
-        Debug.Log("공격1 종료");
-        characterController.isPlayingFirstAttack = false;
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST, false);
         CheckNextStateAfterAttack((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST);
     }
 
@@ -34,7 +33,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void SecondAttackStarted()
     {
-        characterController.isPlayingSecondAttack = true;
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND, true);
     }
 
     /// <summary>
@@ -42,9 +41,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void SecondAttackFinished()
     {
-        Debug.Log("공격2 종료");
-        characterController.isPlayingSecondAttack = false;
-
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND, false);
         CheckNextStateAfterAttack((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND);
     }
 
@@ -53,7 +50,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void ThirdAttackStarted()
     {
-        characterController.isPlayingThirdAttack = true;
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD, true);
     }
 
     /// <summary>
@@ -61,8 +58,7 @@ public class AnimationEventController : MonoBehaviour
     /// </summary>
     public void ThirdAttackFinished()
     {
-        Debug.Log("공격3 종료");
-        characterController.isPlayingThirdAttack = false;
+        characterController.SetCurrentAttackStatus((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD, false);
         ToIdleOrMoveState();
     }
 
@@ -102,13 +98,40 @@ public class AnimationEventController : MonoBehaviour
         {
             // 아이들 상태로
             characterController.PlayerIdle();
-            Debug.Log("to idle");
         }
         else
         {
             // 이동 상태로
             characterController.PlayerMove();
-            Debug.Log("to move");
         }
     }
+
+    public void MomoiFirstAtkDamageEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST, true);
+    }
+
+    public void MomoiFirstAtkDamageEndEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST, false);
+    }
+
+    public void MomoiSecondAtkDamageEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND, true);
+    }
+    public void MomoiSecondAtkDamageEndEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_SECOND, false);
+    }
+
+    public void MomoiThirdAtkDamageEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD, true);
+    }
+    public void MomoiThirdAtkDamageEndEvent()
+    {
+        characterController.SetAttackCollisionBoxActivation((int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_THIRD, false);
+    }
+
 }
