@@ -9,22 +9,20 @@ using Newtonsoft.Json.Linq;
 
 public class StageController : MonoBehaviour
 {
-    public CharacterController player;
-    public GameObject walls;
-    public GameObject portars;
+    [SerializeField]
+    private CharacterController player;
+    [SerializeField]
+    private GameObject walls;
+    [SerializeField]
+    private GameObject portars;
 
     void Start()
     {
-        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        var jsonReader = new JsonReader();
-        var resourcePath = "Assets/Resources/Data";
-        var Momoi = jsonReader.LoadJsonFile<CharacterInfo>(resourcePath, "momoiDS");
-
         walls.OnTriggerEnterAsObservable()
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream =>
             {
-                gameManager.AddCollidedWithWallCount();
+                player.AddCollidedWithWallCount();
                 player.PlayerWalk();
             });
 
@@ -32,14 +30,17 @@ public class StageController : MonoBehaviour
             .Where(stream => stream.gameObject.CompareTag("Player"))
             .Subscribe(stream =>
             {
-                gameManager.SubtractCollidedWithWallCount();
+                player.SubtractCollidedWithWallCount();
                 player.PlayerWalk();
             });
     }
 
-    public StageInfo ReadStageInfoJson(string infoName)
+    /// <summary>
+    /// 스테이지정보 초기화
+    /// </summary>
+    /// <param name="gameObject"> 플레리어 오브젝트 </param>
+    /// <param name="info"> 현재 선택된 캐릭터 정보 </param>
+    public void InitializeStage(GameObject gameObject, CharacterInfo info)
     {
-        var jsonReader = new JsonReader();
-        return jsonReader.JsonToOject<StageInfo>(StaticValues.DATA_SHEET_PATH + infoName + StaticValues.JSON_FILE);
     }
 }

@@ -8,6 +8,7 @@ public struct StaticValues
     public static float DASH_SPEED = 7;
     public static float JUMP_AMMOUNT = 15;
     public static float GRAVITY_SCALE = 2;
+    public static float ON_GROUND_DISTANCE = 0.2f;
 
     public static string DATA_SHEET_PATH = "Assets/Resources/Data";
     public static string JSON_FILE = ".json";

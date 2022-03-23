@@ -9,68 +9,29 @@ public class GameManager : Singleton
     private CharacterController player;
     [SerializeField]
     private GameObject map;
-    private int collidedWithWallCount;
+    public ValueConverter valueConverter;
 
     CharacterInfo Momoi = new CharacterInfo();
+    StageInfo forest00 = new StageInfo();
     public void StartGame()
     {
+        valueConverter = new ValueConverter();
+
         Debug.Log("game start!");
         var jsonReader = new JsonReader();
         var resourcePath = "Assets/Resources/Data";
 
         Momoi = jsonReader.LoadJsonFile<CharacterInfo>(resourcePath, "momoiDS");
+        forest00 = jsonReader.LoadJsonFile<StageInfo>(resourcePath, "forest00");
 
-        player.InitializePlayer(player.gameObject, Momoi);
-    }
-
-    private List<VectorReplacer> ReplaceUnityValues(List<Vector3> vector3List)
-    {
-        var vectorReplacerList = new List<VectorReplacer>();
-
-        foreach (var vec3 in vector3List)
+        Debug.Log("name : " + forest00.dataName);
+        foreach(var v in forest00.cameraPointList)
         {
-            vectorReplacerList.Add(new VectorReplacer
-            {
-                x = vec3.x,
-                y = vec3.y,
-                z = vec3.z
-            });
+            Debug.Log(v.x + ", " + v.y + ", " + v.z);
         }
+        Debug.Log("startingPoint : " + forest00.startingPoint.x + ", " + forest00.startingPoint.y + ", " + forest00.startingPoint.z);
 
-        return vectorReplacerList;
-    }
-
-    private List<QuaternionReplacer> ReplaceUnityValues(List<Quaternion> quaternionList)
-    {
-        var quaternionReplacerList = new List<QuaternionReplacer>();
-
-        foreach (var quaternion in quaternionList)
-        {
-            quaternionReplacerList.Add(new QuaternionReplacer
-            {
-                x = quaternion.x,
-                y = quaternion.y,
-                z = quaternion.z,
-                w = quaternion.w
-            });
-        }
-
-        return quaternionReplacerList;
-    }
-
-    public void AddCollidedWithWallCount()
-    {
-        collidedWithWallCount += 1;
-    }
-
-    public void SubtractCollidedWithWallCount()
-    {
-        collidedWithWallCount -= 1;
-    }
-
-    public int GetCollidedWithWallCount()
-    {
-        return collidedWithWallCount;
+        player.InitializePlayer(player.gameObject, Momoi, forest00);
     }
 
     public void UpdateGame()

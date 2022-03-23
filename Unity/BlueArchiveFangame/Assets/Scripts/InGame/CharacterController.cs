@@ -10,10 +10,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Animator momoiAnimator;
     [SerializeField]
-    private CameraController cameraController;
-    [SerializeField]
     private GameManager gameManager;
 
+    [SerializeField]
+    private GameObject hitBox;
     [SerializeField]
     private GameObject FirstAtkColBox;
     [SerializeField]
@@ -27,6 +27,7 @@ public class CharacterController : MonoBehaviour
 
     private int playerStatus;
     private int playerMovingStatus;
+    private int collidedWithWallCount;
 
     private bool isPlayingFirstAttack;
     private bool isPlayingSecondAttack;
@@ -42,15 +43,18 @@ public class CharacterController : MonoBehaviour
                     PlayerIdle();
                 }
 
-                switch(playerStatus)
+                if (IsPlayerLanded() == true)
+                {
+                    Debug.Log("landed");
+                }
+                else
+                {
+                    Debug.Log("air");
+                }
+
+                switch (playerStatus)
                 {
                     case (int)StaticValues.PLAYER_STATUS.ON_GROUND:
-                        // 점프
-                        if (Input.GetKeyDown(KeyCode.Space))
-                        {
-                            PlayerJump();
-                        }
-
                         // 연속공격
                         if (Input.GetKeyDown(KeyCode.Z) && playerMovingStatus != (int)StaticValues.PLAYER_STATUS.DASH)
                         {
@@ -58,6 +62,12 @@ public class CharacterController : MonoBehaviour
 
                             // 연속공격 시작
                             FirstAttackCombo();
+                        }
+
+                        // 점프
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            PlayerJump();
                         }
                         break;
 
@@ -88,7 +98,7 @@ public class CharacterController : MonoBehaviour
                         break;
                 }
             });
-
+        
         // 부드러운 이동을 위해서 이동관련 메소드는 fixedUpdate에서 실행
         this.FixedUpdateAsObservable()
             .Subscribe(stream =>
@@ -119,10 +129,11 @@ public class CharacterController : MonoBehaviour
     /// </summary>
     /// <param name="gameObject"> 플레리어 오브젝트 </param>
     /// <param name="info"> 현재 선택된 캐릭터 정보 </param>
-    public void InitializePlayer(GameObject gameObject, CharacterInfo info)
+    public void InitializePlayer(GameObject gameObject, CharacterInfo characterInfo, StageInfo stageInfo)
     {
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
-        characterInfo = info;
+        this.characterInfo = characterInfo;
+        transform.position = gameManager.valueConverter.ConvertToUnityValue(stageInfo.startingPoint);
     }
 
     /// <summary>
@@ -162,6 +173,9 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 플레이어 움직임
+    /// </summary>
     public void PlayerMove()
     {
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
@@ -169,7 +183,7 @@ public class CharacterController : MonoBehaviour
             return;
         }
                 
-        if (Input.GetKey(KeyCode.LeftShift) && gameManager.GetCollidedWithWallCount() == 0)
+        if (Input.GetKey(KeyCode.LeftShift) && collidedWithWallCount == 0)
         {
             PlayerDash();
         }
@@ -226,7 +240,7 @@ public class CharacterController : MonoBehaviour
         Vector3 moveHorizontal = transform.right * moveDirX;
         Vector3 moveVertical = transform.forward * moveDirZ;
 
-        Vector3 velocity = (moveHorizontal + moveVertical).normalized * speed;
+        Vector3 velocity = collidedWithWallCount >= 2 ? (moveHorizontal + moveVertical).normalized * speed * 0.1f : (moveHorizontal + moveVertical).normalized * speed;
 
         playerRigidBody.MovePosition(transform.position + velocity * Time.deltaTime);
     }
@@ -273,9 +287,9 @@ public class CharacterController : MonoBehaviour
     /// <returns> 착지한 상태인가 </returns>
     public bool IsPlayerLanded()
     {
-        var distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
+        var distToGround = hitBox.GetComponent<BoxCollider>().bounds.extents.y;
 
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + StaticValues.ON_GROUND_DISTANCE);
     }
 
     /// <summary>
@@ -286,17 +300,45 @@ public class CharacterController : MonoBehaviour
         playerRigidBody.AddForce(Physics.gravity * StaticValues.GRAVITY_SCALE * playerRigidBody.mass);
     }
 
+    /// <summary>
+    /// 벽 충돌 횟수 증가
+    /// </summary>
+    public void AddCollidedWithWallCount()
+    {
+        collidedWithWallCount += 1;
+    }
 
+    /// <summary>
+    /// 벽 충돌 횟수 감소
+    /// </summary>
+    public void SubtractCollidedWithWallCount()
+    {
+        collidedWithWallCount -= 1;
+    }
+
+    /// <summary>
+    /// 외부에서 플레이어 상태 변경용 메소드
+    /// </summary>
+    /// <param name="newStatus">변경할 상태</param>
     public void SetPlayerStatus(int newStatus)
     {
         playerStatus = newStatus;
     }
 
+    /// <summary>
+    /// 외부에서 플레이어 상태 가져오는 메소드
+    /// </summary>
+    /// <returns></returns>
     public int GetPlayerStatus()
     {
         return playerStatus;
     }
 
+    /// <summary>
+    /// 플레이어 공격 상태 변경용 메소드
+    /// </summary>
+    /// <param name="playerAttackStatus">현재 공격 상태</param>
+    /// <param name="status">변경할 값</param>
     public void SetCurrentAttackStatus(int playerAttackStatus, bool status)
     {
         switch(playerAttackStatus)
@@ -315,6 +357,11 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="playerAttackStatus"></param>
+    /// <returns></returns>
     public bool GetCurrentAttackStatus(int playerAttackStatus)
     {
         var currentStatus = false;
@@ -337,12 +384,16 @@ public class CharacterController : MonoBehaviour
         return currentStatus;
     }
 
+    /// <summary>
+    /// 공격 상태에 따라서 공격범위 충돌박스 컨트롤
+    /// </summary>
+    /// <param name="playerAttackStatus"></param>
+    /// <param name="isOn"></param>
     public void SetAttackCollisionBoxActivation(int playerAttackStatus, bool isOn)
     {
         switch (playerAttackStatus)
         {
             case (int)StaticValues.PLAYER_STATUS.ATTACK_COMBO_FIRST:
-                Debug.Log(isOn);
                 FirstAtkColBox.SetActive(isOn);
                 break;
 
