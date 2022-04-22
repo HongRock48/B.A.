@@ -25,10 +25,6 @@ public class GameManager : Singleton
         forest00 = jsonReader.LoadJsonFile<StageInfo>(resourcePath, "forest00");
 
         Debug.Log("name : " + forest00.dataName);
-        foreach(var v in forest00.cameraPointList)
-        {
-            Debug.Log(v.x + ", " + v.y + ", " + v.z);
-        }
         Debug.Log("startingPoint : " + forest00.startingPoint.x + ", " + forest00.startingPoint.y + ", " + forest00.startingPoint.z);
 
         player.InitializePlayer(player.gameObject, Momoi, forest00);

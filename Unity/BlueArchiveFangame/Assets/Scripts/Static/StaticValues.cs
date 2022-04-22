@@ -47,6 +47,24 @@ public struct StaticValues
         ATTACK_COMBO_FIRST = 4,
         ATTACK_COMBO_SECOND = 5,
         ATTACK_COMBO_THIRD = 6,
+        DASH_ATTACK = 7,
+        JUMP_ATTACK = 8,
+        HIT = 9,
+        DOWN = 10,
+        GET_UP = 11,
+        SKILL = 12,
+        CANT_MOVE = 98,
+        STAND = 99,
+    };
+    
+    public enum MONSTER_STATUS
+    {
+        IDLE = 0,
+        WALK = 1,
+        ATTACK = 2,
+        HIT = 3,
+        DOWN = 4,
+        GET_UP = 5,
         CANT_MOVE = 98,
         STAND = 99,
     };

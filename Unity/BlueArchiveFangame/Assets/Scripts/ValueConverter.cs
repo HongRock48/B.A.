@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// json저장용 클래스에서 unity변수로 변환(혹은 그반대 작업)
+/// </summary>
 public class ValueConverter : MonoBehaviour
 {
     public List<Vector3Replacer> ReplaceUnityValues(List<Vector3> vector3List)

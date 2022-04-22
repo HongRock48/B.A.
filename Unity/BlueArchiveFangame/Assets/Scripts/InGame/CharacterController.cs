@@ -21,7 +21,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private GameObject ThirdAtkColBox;
 
-
     private Rigidbody playerRigidBody;
     private CharacterInfo characterInfo;
 
